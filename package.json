@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/aBaldoqui/videorender#readme",
   "dependencies": {
-    "readline-sync": "^1.4.10"
+    "@google-cloud/storage": "^6.5.2",
+    "after-effects": "^0.4.15",
+    "readline-sync": "^1.4.10",
+    "ytdl-core": "^4.11.2"
   }
 }
