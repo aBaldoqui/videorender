@@ -5,39 +5,46 @@ const path = require('path')
 
 
 async function index() {
-    const create_composition = new ae.Command(name => {
-        name = typeof name === "string" ? name : "New Comp";
-        app.project.items.addComp(name, 1920, 1080, 1, 24, 10);
-    });
-
-
-    let audioFile = path.resolve('..', 'tmp', 'neurocientista_sobre_o_vicio_em_p0rn0gr4f1a__eslen_delanogare____cortes_podcast.mp3').replace('C:','')
-
-    //audioFile = `\\${audioFile}`     
-
     try {
-        ae.execute((audioFile_fromnode) => {
-            const importOptions = new ImportOptions()
-            importOptions.file = new File('~/Documents/dev/videorender/tmp/neurocientista_sobre_o_vicio_em_p0rn0gr4f1a__eslen_delanogare____cortes_podcast.mp3');
-            app.project.importFile(importOptions)
-        }, audioFile);
+        ae.execute(() => {
+            try {
+                const audioFile = '~/Documents/dev/videorender/tmp/neurocientista_sobre_o_vicio_em_p0rn0gr4f1a__eslen_delanogare____cortes_podcast.mp3'
+                const imageFile = '~/Documents/dev/videorender/tmp/Shrek(personagem).jpg'
+                const projectName = 'aaaa'
+
+                const importaOptions = new ImportOptions()
+                const importiOptions = new ImportOptions()
+
+                importiOptions.file = new File(imageFile)
+                importaOptions.file = new File(audioFile);
+
+
+                app.project.items.addComp(projectName, 1920, 1080, 1, 24, 10);
+                app.project.importFile(importaOptions)
+                app.project.importFile(importiOptions)
+
+                const audio = app.project.item(2)
+                const img = app.project.item(3)
+
+                app.project.item(1).layers.add(audio)
+                app.project.item(1).layers.add(img)
+                alert(app.project.item(1).layers)
+
+
+            } catch (err) {
+                alert(err)
+            }
+
+        });
     } catch (err) {
         console.log(err)
     }
 
 
-
-    // const importAudiofile = new ae.Command(audioFile => {
-    //     const importOptions = new ImportOptions()
-    //     importOptions.file = new File(audioFile);
-    //     app.project.importFile(importOptions)
-    // })
-
-    // //ae(create_composition, "First Comp");
-    // ae(importAudiofile, audioFile)
-
-
 }
+
+
+
 
 
 module.exports = index
