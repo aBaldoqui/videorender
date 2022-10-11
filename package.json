@@ -20,6 +20,7 @@
   "dependencies": {
     "@google-cloud/storage": "^6.5.2",
     "after-effects": "^0.4.15",
+    "image-downloader": "^4.3.0",
     "readline-sync": "^1.4.10",
     "ytdl-core": "^4.11.2"
   }

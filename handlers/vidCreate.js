@@ -12,25 +12,31 @@ async function index() {
                 const imageFile = '~/Documents/dev/videorender/tmp/Shrek(personagem).jpg'
                 const projectName = 'aaaa'
 
-                const importaOptions = new ImportOptions()
-                const importiOptions = new ImportOptions()
+                const outputFolder = "~/Desktop"
 
-                importiOptions.file = new File(imageFile)
+                const importaOptions = new ImportOptions();
+                const importiOptions = new ImportOptions();
+
+                importiOptions.file = new File(imageFile);
                 importaOptions.file = new File(audioFile);
 
 
-                app.project.items.addComp(projectName, 1920, 1080, 1, 24, 10);
-                app.project.importFile(importaOptions)
-                app.project.importFile(importiOptions)
+                const comp = app.project.items.addComp(projectName, 1920, 1080, 1, 24, 60);
+                const audio = app.project.importFile(importaOptions);
+                const img = app.project.importFile(importiOptions);
+                
 
-                const audio = app.project.item(2)
-                const img = app.project.item(3)
+                comp.layers.add(audio);
+                comp.layers.add(img);
+                alert(app.project.item(1).layers);
 
-                app.project.item(1).layers.add(audio)
-                app.project.item(1).layers.add(img)
-                alert(app.project.item(1).layers)
+                const rendering = app.project.renderQueue.items.add(comp);
+                const outputModule = rendering.outputModule(1);
 
+                outputModule.applyTemplate("Qualidade superior")
+                outputModule.file = File(outputFolder +'/' + comp.name)
 
+                app.project.renderQueue.queueInAME(true)
             } catch (err) {
                 alert(err)
             }
