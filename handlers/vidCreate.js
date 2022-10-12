@@ -4,8 +4,10 @@ const path = require('path')
 //err
 
 
-async function index() {
+async function index(contentObj,audioFileName) {
     try {
+        console.log(audioFileName)
+        console.log(contentObj.vidUrl)
         ae.execute(() => {
             try {
                 const audioFile = '~/Documents/dev/videorender/tmp/neurocientista_sobre_o_vicio_em_p0rn0gr4f1a__eslen_delanogare____cortes_podcast.mp3'

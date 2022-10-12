@@ -6,14 +6,11 @@ const inputFileName = readlinesync.question('file name: ')
 async function index() {
     try {
         const content = await handlers.gcs.contentDownloader(inputFileName)
-        console.log(content)
-        handlers.state.save(content)
-        const fileOutput = await handlers.contentDownloader.audioDld('https://www.youtube.com/watch?v=FqpQkqlGv_A')
-        await handlers.contentDownloader.imgDownloader(content.result)
-        //handlers.vidcreate()
+        const fileOutput = await handlers.contentDownloader.audioDld(content.vidUrl)
+        await handlers.contentDownloader.imgDownloader(content.continuista)
+        handlers.vidcreate(content, fileOutput)
     }catch(err){
         console.log(err)
     }
-    
 }
 index()

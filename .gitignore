@@ -108,3 +108,4 @@ dist
 *.jpg
 /keys/*.json
 /tmp/*.json
+/tmp/*
