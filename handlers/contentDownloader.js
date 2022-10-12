@@ -4,51 +4,45 @@ const ytdl = require('ytdl-core');
 const download = require('image-downloader');
 const path = require('path');
 
+let index = 0;
+
 async function imgDownloader(arrayOfperiods) {
 
-    return new Promise(res => {
-        let index = 0
-        arrayOfperiods.forEach(period => {
-            try {
+    return await Promise.all(arrayOfperiods.map(async (period) => {
 
-                // fs.rmSync(`./tmp/${period.meta}`, { recursive: true, force: true })
-                //fs.mkdirSync(`./tmp/${period.meta}`, { force: true })
-
-                Promise.all(period.images.map(url => {
-                    if (!url) return null
-                    // console.log(url[0])
-                    const options = {
-                        url: url[0],
-                        dest: path.normalize(path.resolve('tmp', period.meta, `${index}.png`)),
-                    };
-                    index++
-
-                    return new Promise(res => {
-                        download.image(options)
-                            .then(({ filename }) => {
-                                res(filename) // saved to /path/to/dest/image.jpg
-                            })
-                            .catch((err) => console.log('normal log'));
-                    })
-
-                })).then(imageArr => {
-                    console.log(imageArr)
-
-                })
-
-
-
-            } catch (err) {
-                console.log(err)
+        fs.stat(`./tmp/${period.meta}`, (err) => {
+            if (!err) {
+                fs.rmSync(`./tmp/${period.meta}`, { recursive: true, force: true })
+                fs.mkdirSync(`./tmp/${period.meta}`, { force: true })
+            } else {
+                fs.mkdirSync(`./tmp/${period.meta}`, { force: true })
             }
         })
-    })
 
+        let i = 0
+        const resArr = []
+        return new Promise(async (res) => {
+            for (const image of period.images) {
+                i++
+                if (image) {
+                    const options = {
+                        url: image[0],
+                        dest: path.resolve('tmp', period.meta, `original(${index}).png`),               // will be saved to /path/to/dest/image.jpg
+                    };
 
+                    index++
+                    const downloadedImg = await download.image(options).catch(() => { console.log('foda -se') })
+                    resArr.push(downloadedImg)
 
+                    if (i === period.images.length) {
+                        res({ meta: period.meta, arr: resArr })
+                    }
+                }
 
+            }
+        })
 
-
+    }))
 }
 
 async function audioDld(url) {

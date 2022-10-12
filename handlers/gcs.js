@@ -8,7 +8,6 @@ const storage = new Storage({
 async function contentDownloader(filename) {
     return new Promise(async res=>{
         const obj = await storage.bucket(bucketName).file(filename).download()
-        // console.log(obj)
         const jsonobj = await JSON.parse(obj)
         res(jsonobj)
     })
